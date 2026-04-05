@@ -33,10 +33,19 @@ A meal planning engine that matches recipes to user macro and calorie targets, s
 - NEVER hardcode prices or macro values as final answers because they must come from APIs or user input
 
 ## Key dependencies
-- requests — HTTP calls to Spoonacular and Kroger APIs
+- requests — HTTP calls to TheMealDB, USDA FoodData Central, and Kroger APIs
 - python-dotenv — load API keys from .env file
 - pytest — unit testing each module independently
 - dataclasses — structured data objects for profiles, recipes, ingredients
+- anthropic — Claude API SDK for fallback recipe generation
+
+## API stack
+| Service | Purpose | Auth |
+|---------|---------|------|
+| TheMealDB (themealdb.com/api.php) | Recipe names, instructions, ingredient lists | None — free, no key |
+| USDA FoodData Central (api.nal.usda.gov) | Macro data per ingredient (protein, carbs, fat, calories) | USDA_API_KEY |
+| Claude API (anthropic SDK) | Custom recipe generation when DB results don't fit profile | ANTHROPIC_API_KEY |
+| Kroger API (developer.kroger.com) | Real-time local grocery pricing by zip code | KROGER_CLIENT_ID + KROGER_CLIENT_SECRET |
 
 ## Testing
 - Framework: pytest
