@@ -1,0 +1,24 @@
+{
+  "include": [
+    "src/",
+    "src/core/",
+    "src/modules/"
+  ],
+  "output": {
+    "filePath": "repomix-output.xml",
+    "style": "xml",
+    "compress": true
+  },
+  "ignore": {
+    "useGitignore": true,
+    "customPatterns": [
+      "**/__pycache__/**",
+      "**/.venv/**",
+      "**/node_modules/**",
+      "**/migrations/**",
+      "*.pyc",
+      "*.lock",
+      "repomix-output.xml"
+    ]
+  }
+}
