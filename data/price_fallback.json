@@ -1,0 +1,66 @@
+{
+  "_meta": {
+    "description": "Average US grocery prices used as fallback when Kroger API returns no match or $0.00",
+    "unit": "USD per typical purchase unit noted in 'unit' field",
+    "source": "USDA NASS / BLS CPI averages, 2024",
+    "update_note": "Refresh annually or when prices feel stale — these are ballpark estimates only"
+  },
+  "proteins": {
+    "chicken breast":    { "price_usd": 4.99, "unit": "per lb" },
+    "chicken thighs":    { "price_usd": 3.49, "unit": "per lb" },
+    "ground beef":       { "price_usd": 5.49, "unit": "per lb" },
+    "ground turkey":     { "price_usd": 4.79, "unit": "per lb" },
+    "salmon":            { "price_usd": 8.99, "unit": "per lb" },
+    "tilapia":           { "price_usd": 4.49, "unit": "per lb" },
+    "tuna":              { "price_usd": 1.49, "unit": "per 5 oz can" },
+    "eggs":              { "price_usd": 3.99, "unit": "per dozen" },
+    "shrimp":            { "price_usd": 7.99, "unit": "per lb" },
+    "pork tenderloin":   { "price_usd": 4.99, "unit": "per lb" }
+  },
+  "grains": {
+    "rice":              { "price_usd": 2.49, "unit": "per 2 lb bag" },
+    "brown rice":        { "price_usd": 2.99, "unit": "per 2 lb bag" },
+    "oats":              { "price_usd": 3.49, "unit": "per 42 oz canister" },
+    "pasta":             { "price_usd": 1.49, "unit": "per 16 oz box" },
+    "whole wheat bread": { "price_usd": 3.99, "unit": "per loaf" },
+    "quinoa":            { "price_usd": 4.99, "unit": "per lb" },
+    "tortillas":         { "price_usd": 3.49, "unit": "per 10-pack" },
+    "bread":             { "price_usd": 3.49, "unit": "per loaf" }
+  },
+  "produce": {
+    "broccoli":          { "price_usd": 2.49, "unit": "per lb" },
+    "spinach":           { "price_usd": 3.49, "unit": "per 5 oz bag" },
+    "banana":            { "price_usd": 0.29, "unit": "per banana" },
+    "apple":             { "price_usd": 0.99, "unit": "per apple" },
+    "sweet potato":      { "price_usd": 1.29, "unit": "per lb" },
+    "potato":            { "price_usd": 0.89, "unit": "per lb" },
+    "tomato":            { "price_usd": 1.49, "unit": "per lb" },
+    "onion":             { "price_usd": 0.99, "unit": "per lb" },
+    "garlic":            { "price_usd": 0.79, "unit": "per head" },
+    "bell pepper":       { "price_usd": 1.29, "unit": "each" },
+    "cucumber":          { "price_usd": 0.99, "unit": "each" },
+    "avocado":           { "price_usd": 1.49, "unit": "each" },
+    "lemon":             { "price_usd": 0.69, "unit": "each" },
+    "lime":              { "price_usd": 0.49, "unit": "each" }
+  },
+  "dairy": {
+    "milk":              { "price_usd": 3.99, "unit": "per gallon" },
+    "greek yogurt":      { "price_usd": 5.99, "unit": "per 32 oz" },
+    "cheddar cheese":    { "price_usd": 4.99, "unit": "per 8 oz block" },
+    "cottage cheese":    { "price_usd": 3.49, "unit": "per 16 oz" },
+    "butter":            { "price_usd": 4.49, "unit": "per lb" },
+    "mozzarella":        { "price_usd": 3.99, "unit": "per 8 oz" }
+  },
+  "pantry": {
+    "olive oil":         { "price_usd": 7.99, "unit": "per 16 oz bottle" },
+    "coconut oil":       { "price_usd": 6.99, "unit": "per 14 oz jar" },
+    "black beans":       { "price_usd": 0.99, "unit": "per 15 oz can" },
+    "chickpeas":         { "price_usd": 1.29, "unit": "per 15 oz can" },
+    "lentils":           { "price_usd": 2.49, "unit": "per lb" },
+    "peanut butter":     { "price_usd": 4.49, "unit": "per 16 oz jar" },
+    "almond butter":     { "price_usd": 7.99, "unit": "per 16 oz jar" },
+    "soy sauce":         { "price_usd": 2.99, "unit": "per 10 oz bottle" },
+    "honey":             { "price_usd": 5.99, "unit": "per 12 oz bottle" },
+    "tomato sauce":      { "price_usd": 1.49, "unit": "per 24 oz jar" }
+  }
+}

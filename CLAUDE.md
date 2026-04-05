@@ -47,6 +47,17 @@ A meal planning engine that matches recipes to user macro and calorie targets, s
 | Claude API (anthropic SDK) | Custom recipe generation when DB results don't fit profile | ANTHROPIC_API_KEY |
 | Kroger API (developer.kroger.com) | Real-time local grocery pricing by zip code | KROGER_CLIENT_ID + KROGER_CLIENT_SECRET |
 
+## Kroger API environments
+| Environment | Base URL | Credentials | When to use |
+|-------------|----------|-------------|-------------|
+| Certification | `https://api-ce.kroger.com/v1` | Cert client ID + secret | Development and testing — limited inventory, prices often $0.00 |
+| Production | `https://api.kroger.com/v1` | Prod client ID + secret | Live deployment only — requires Kroger production approval |
+
+**Current environment:** Certification (`KROGER_BASE` in `src/modules/pricing.py`)
+
+To switch to production: update `KROGER_BASE` in `pricing.py` and replace
+`KROGER_CLIENT_ID` / `KROGER_CLIENT_SECRET` in `.env` with production credentials.
+
 ## Testing
 - Framework: pytest
 

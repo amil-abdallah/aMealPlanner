@@ -39,11 +39,11 @@ from dataclasses import dataclass, field
 
 import anthropic
 import requests
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 
 from profile import UserProfile
 
-load_dotenv()
+load_dotenv(find_dotenv())
 
 # ── API base URLs ──────────────────────────────
 MEALDB_BASE  = "https://www.themealdb.com/api/json/v1/1"

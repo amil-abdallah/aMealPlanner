@@ -18,16 +18,27 @@ import warnings
 from dataclasses import dataclass, field
 
 import requests
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 
-load_dotenv()
+load_dotenv(find_dotenv())
 
-KROGER_BASE        = "https://api.kroger.com/v1"
-KROGER_TOKEN_URL   = f"{KROGER_BASE}/connect/oauth2/token"
+KROGER_BASE         = "https://api-ce.kroger.com/v1"  # swap to api.kroger.com for production
+KROGER_TOKEN_URL    = f"{KROGER_BASE}/connect/oauth2/token"
 KROGER_PRODUCTS_URL = f"{KROGER_BASE}/products"
 
 # Cached token state — module-level so it persists across calls in a session
 _token_cache: dict = {"access_token": None, "expires_at": 0.0}
+
+# Adjectives and qualifiers stripped from ingredient names before querying Kroger
+_STRIP_WORDS = {
+    "fresh", "frozen", "dried", "canned", "raw", "cooked", "organic",
+    "boneless", "skinless", "chopped", "sliced", "diced", "minced",
+    "large", "small", "medium", "extra", "lean", "fat-free", "low-fat",
+    "unsalted", "salted", "roasted", "toasted", "baby", "young", "ripe",
+    "peeled", "pitted", "shredded", "grated", "halved", "quartered",
+    # NOTE: "ground" and "whole" intentionally excluded —
+    # they are meaningful product qualifiers (ground beef, whole wheat)
+}
 
 
 @dataclass
@@ -48,6 +59,30 @@ class PricingResult:
     priced: list[PricedIngredient] = field(default_factory=list)
     not_found: list[str] = field(default_factory=list)
     total_usd: float = 0.0
+
+
+def simplify_search_term(ingredient: str) -> str:
+    """Strip adjectives and qualifiers from an ingredient name for better Kroger search results.
+
+    Removes known modifier words (fresh, frozen, boneless, organic, etc.) so that
+    overly specific ingredient names from recipe sources resolve to actual store products.
+
+    Examples:
+        "brown rice"          -> "brown rice"   (colour is meaningful — kept)
+        "fresh spinach"       -> "spinach"
+        "boneless chicken breast" -> "chicken breast"
+        "diced tomatoes"      -> "tomatoes"
+
+    Args:
+        ingredient: Raw ingredient name string.
+
+    Returns:
+        Simplified ingredient string with qualifier words removed.
+        Falls back to the original string if all words are stripped.
+    """
+    words = ingredient.lower().strip().split()
+    simplified = [w for w in words if w not in _STRIP_WORDS]
+    return " ".join(simplified) if simplified else ingredient.lower().strip()
 
 
 def _get_token(client_id: str, client_secret: str) -> str:
@@ -124,7 +159,8 @@ def fetch_price(ingredient: str, token: str, location_id: str | None = None) -> 
     Raises:
         requests.HTTPError: If the API returns a non-2xx response.
     """
-    params: dict = {"filter.term": ingredient, "filter.limit": 1}
+    search_term = simplify_search_term(ingredient)
+    params: dict = {"filter.term": search_term, "filter.limit": 1}
     if location_id:
         params["filter.locationId"] = location_id
 
@@ -137,7 +173,7 @@ def fetch_price(ingredient: str, token: str, location_id: str | None = None) -> 
 
     products = response.json().get("data", [])
     if not products:
-        warnings.warn(f"Kroger: no match for '{ingredient}' — skipping", stacklevel=2)
+        warnings.warn(f"Kroger: no match for '{ingredient}' (searched: '{search_term}') — skipping", stacklevel=2)
         return PricedIngredient(name=ingredient, brand="", unit="", price_usd=0.0, found=False)
 
     product = products[0]
