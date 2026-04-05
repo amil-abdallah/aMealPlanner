@@ -156,16 +156,18 @@ _No deployment target set. Update this section when you decide where to deploy._
 
 ---
 
-### Phase 4 — Meal Plan Optimizer `src/modules/optimizer.py` ⬜
+### Phase 4 — Meal Plan Optimizer `src/modules/optimizer.py` ✅
 **Goal:** Score and select the best combination of recipes for a full day/week.
 
-- [ ] `score_recipe(recipe: Recipe, profile: UserProfile) -> float` — weighted score across nutrition fit, cost, and effort (ready_in_minutes)
-- [ ] `build_meal_plan(recipes: list[Recipe], profile: UserProfile) -> MealPlan` dataclass — select top N recipes per day across meals_per_day
-- [ ] Goal-type weighting: cut prioritizes nutrition fit, bulk prioritizes protein density, maintain balances all three
-- [ ] Daily and weekly calorie + macro totals
-- [ ] `print_meal_plan()` human-readable output
+- [x] `score_recipe(recipe, profile, ingredient_prices) -> ScoredRecipe` — weighted composite score across nutrition fit, protein density, cost, and effort
+- [x] `build_meal_plan(recipes, profile, ingredient_prices, days) -> MealPlan` — cycles ranked recipes across days × meals_per_day slots for variety
+- [x] Goal-type weighting via `GOAL_WEIGHTS`: cut prioritizes nutrition fit, bulk prioritizes protein density, maintain balances all three
+- [x] `DayPlan` and `MealPlan` dataclasses with daily + weekly calorie/macro totals and estimated cost
+- [x] `estimate_recipe_cost()` helper sums ingredient prices from pricing module output
+- [x] `print_meal_plan()` human-readable day-by-day output with weekly summary
+- [x] Added `ready_in_minutes: int = 0` to `Recipe` in recipes.py (TheMealDB omits cook time; 0 → neutral effort score)
 
-**Deliverable:** `build_meal_plan()` returns a scored `MealPlan` with daily recipe assignments.
+**Deliverable:** `build_meal_plan()` returns a scored `MealPlan` with daily recipe assignments and weekly totals.
 
 ---
 

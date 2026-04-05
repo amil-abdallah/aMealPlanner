@@ -65,7 +65,8 @@ class Recipe:
     carbs_g: float
     ingredients: list[str]
     instructions: str
-    source: str          # "mealdb" | "claude"
+    source: str               # "mealdb" | "claude"
+    ready_in_minutes: int = 0 # TheMealDB does not provide cook time; 0 = unknown
     macro_fit_score: float = 0.0
 
 
