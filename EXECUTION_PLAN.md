@@ -142,17 +142,17 @@ _No deployment target set. Update this section when you decide where to deploy._
 
 ---
 
-### Phase 3 — Ingredient Pricing `src/modules/pricing.py` ⬜
+### Phase 3 — Ingredient Pricing `src/modules/pricing.py` ✅
 **Goal:** Look up real ingredient prices from the Kroger API.
 
-- [ ] Load `KROGER_CLIENT_ID` + `KROGER_CLIENT_SECRET` from `.env`
-- [ ] OAuth2 client-credentials token fetch and caching
-- [ ] `fetch_price(ingredient: str) -> PricedIngredient` dataclass (name, unit, price_usd)
-- [ ] Batch lookup for all ingredients across a recipe list
-- [ ] Graceful fallback when an ingredient is not found (log warning, skip)
-- [ ] `print_prices()` human-readable output
+- [x] Load `KROGER_CLIENT_ID` + `KROGER_CLIENT_SECRET` from `.env`
+- [x] OAuth2 client-credentials token fetch with module-level caching (refreshes 60s before expiry)
+- [x] `fetch_price(ingredient, token) -> PricedIngredient` dataclass (name, brand, unit, price_usd, found)
+- [x] `fetch_prices(ingredients, zip_code) -> PricingResult` — batch lookup with zip-based store resolution
+- [x] Graceful fallback when an ingredient is not found (warns, sets found=False, continues)
+- [x] `print_prices()` human-readable output grouped by found / not found
 
-**Deliverable:** Given a list of ingredient names, return a `dict[str, PricedIngredient]`.
+**Deliverable:** Given a list of ingredient names, return a `PricingResult` with per-item prices and an estimated total.
 
 ---
 
